@@ -8,7 +8,7 @@ CreateDriver::CreateDriver(ros::NodeHandle& nh)
     model_(create::RobotModel::CREATE_2),
     is_running_slowly_(false)
 {
-  bool create_one;
+  bool estimate_odom_with_cmd_vel;
   std::string robot_model_name;
   priv_nh_.param<std::string>("dev", dev_, "/dev/ttyUSB0");
   priv_nh_.param<std::string>("robot_model", robot_model_name, "CREATE_2");
@@ -17,6 +17,7 @@ CreateDriver::CreateDriver(ros::NodeHandle& nh)
   priv_nh_.param<double>("latch_cmd_duration", latch_duration_, 0.2);
   priv_nh_.param<double>("loop_hz", loop_hz_, 10.0);
   priv_nh_.param<bool>("publish_tf", publish_tf_, true);
+  priv_nh_.param<bool>("estimate_odom_with_cmd_vel", estimate_odom_with_cmd_vel, false);
 
   if (robot_model_name == "ROOMBA_400")
   {
@@ -50,6 +51,8 @@ CreateDriver::CreateDriver(ros::NodeHandle& nh)
   }
 
   ROS_INFO("[CREATE] Connection established.");
+
+  robot_->enableOdomEstimateWithCommandVelocity(estimate_odom_with_cmd_vel);
 
   // Start in full control mode
   robot_->setMode(create::MODE_FULL);
