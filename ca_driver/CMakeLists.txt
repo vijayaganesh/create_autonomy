@@ -10,7 +10,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   nav_msgs
   roscpp
-  roslint
+  #roslint
   sensor_msgs
   std_msgs
   tf
@@ -31,8 +31,8 @@ catkin_package(
   DEPENDS libcreate
 )
 
-roslint_cpp()
-roslint_add_test()
+#roslint_cpp()
+#roslint_add_test()
 
 include_directories(
   include
